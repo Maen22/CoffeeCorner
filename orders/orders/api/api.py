@@ -41,6 +41,8 @@ def get_orders(cancelled: Optional[bool] = None, limit: Optional[int] = None):
 
     if limit is not None and len(query_set) > limit:
         return {'orders': query_set[:limit]}
+    
+    return {'orders': query_set}
 
 
 @app.post(

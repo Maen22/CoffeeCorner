@@ -3,7 +3,7 @@ from enum import Enum
 from typing import Annotated, Optional, List
 from uuid import UUID
 
-from pydantic import BaseModel, Field, conlist, validator
+from pydantic import BaseModel, Field, conlist, validator, ConfigDict
 
 
 class Size(Enum):
@@ -19,6 +19,7 @@ class Status(Enum):
     delivered = 'delivered'
     
 class OrderItemSchema(BaseModel):
+    model_config = ConfigDict(extra='forbid') # will forbid any unknown request payload fields
     product: str
     size: Size
     quantity: Optional[Annotated[int, Field(strict=True, ge=1)]] = 1
@@ -29,6 +30,7 @@ class OrderItemSchema(BaseModel):
         return value
     
 class CreateOrderSchema(BaseModel):
+    model_config = ConfigDict(extra='forbid')
     order: conlist(OrderItemSchema, min_length=1)
     
         
